@@ -394,7 +394,12 @@ img {
   .navbar.active {
     transform: translateX(0);
   }
-
+  .navbar-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
   /* Close button */
   .nav-close-btn {
     display: inline-flex;
@@ -404,6 +409,7 @@ img {
     color: #fff;
     cursor: pointer;
     margin-left: auto;
+    z-index: 9999;
   }
 
   /* NAV LINKS */
