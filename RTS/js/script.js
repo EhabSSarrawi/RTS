@@ -20,10 +20,6 @@ for (let i = 0; i < elemArr.length; i++) {
   });
 }
 
-/**
- * toggle navbar & overlay when click any navbar-link
- */
-
 const navbarLinks = document.querySelectorAll("[data-navbar-link]");
 
 for (let i = 0; i < navbarLinks.length; i++) {
@@ -36,25 +32,6 @@ for (let i = 0; i < navbarLinks.length; i++) {
 
 
 
-
-/**
- * header & go-top-btn active
- * when window scroll down to 400px
- */
-
-const header = document.querySelector("[data-header]");
-const goTopBtn = document.querySelector("[data-go-top]");
-
-window.addEventListener("scroll", function () {
-  if (window.scrollY >= 400) {
-    header.classList.add("active");
-    goTopBtn.classList.add("active");
-  } else {
-    header.classList.remove("active");
-    goTopBtn.classList.remove("active");
-  }
-});
-
 /*
 Counter Animation
 */
@@ -63,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function animateCounter(counter) {
     const target = +counter.dataset.target;
-    const duration = 1500;
+    const duration = 3500;
     const start = 0;
     const startTime = performance.now();
 
