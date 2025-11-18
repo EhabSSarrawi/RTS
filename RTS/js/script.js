@@ -1,26 +1,35 @@
 'use strict';
 
 
-
-/**
- * navbar toggle
- */
-
-const navOpenBtn = document.querySelector("[data-nav-open-btn]");
-const navbar = document.querySelector("[data-navbar]");
+const navOpenBtn  = document.querySelector("[data-nav-open-btn]");
 const navCloseBtn = document.querySelector("[data-nav-close-btn]");
-const overlay = document.querySelector("[data-overlay]");
+const navbar      = document.querySelector("[data-navbar]");
+const overlay     = document.querySelector("[data-overlay]");
+const navLinks    = document.querySelectorAll("[data-navbar-link]");
 
-function toggleMenu() {
-  navbar.classList.toggle("active");
-  overlay.classList.toggle("active");
-  document.body.classList.toggle("nav-open");
+function openMenu() {
+  navbar.classList.add("active");
+  overlay.classList.add("active");
+  document.body.classList.add("nav-open"); 
+  navOpenBtn.style.display = "none";   // HIDE hamburger
+  navCloseBtn.style.display = "inline-flex"; // SHOW X
 }
 
-navOpenBtn.addEventListener("click", toggleMenu);
-navCloseBtn.addEventListener("click", toggleMenu);
-overlay.addEventListener("click", toggleMenu);
+function closeMenu() {
+  navbar.classList.remove("active");
+  overlay.classList.remove("active");
+  document.body.classList.remove("nav-open");
+  navOpenBtn.style.display = "inline-flex"; // SHOW burger again
+  navCloseBtn.style.display = "none"; // HIDE X
+}
 
+navOpenBtn.addEventListener("click", openMenu);
+navCloseBtn.addEventListener("click", closeMenu);
+overlay.addEventListener("click", closeMenu);
+
+navLinks.forEach(link => {
+  link.addEventListener("click", closeMenu);
+});
 
 
 

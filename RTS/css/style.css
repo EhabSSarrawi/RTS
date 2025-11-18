@@ -216,7 +216,7 @@ img {
 
   background:
     radial-gradient(circle at 20% 40%, rgba(62, 0, 255, 0.25), transparent 50%),
-    radial-gradient(circle at 80% 50%, rgba(192, 36, 255, 0.35), transparent 60%),
+    radial-gradient(circle at 80% 50%, rgba(192, 36, 255, 0.35), transparent 90%),
     linear-gradient(135deg, #050011 0%, #0a001a 40%, #140020 100%);
 }
 
@@ -360,80 +360,87 @@ img {
 /* mobile / tablet */
 @media (max-width: 768px) {
 
-  /* Burger Button */
+  /* burger icon */
   .nav-open-btn {
     display: inline-flex;
     background: none;
     border: none;
-    font-size: 2rem;
-    color: #fff;
+    font-size: 2.2rem;
+    color: #ffffff;
     cursor: pointer;
+    position: absolute;
+    right: 20px;
+    top: 18px;
     z-index: 9999;
   }
 
-  /* NAVBAR DRAWER */
+  /* drawer */
   .navbar {
     position: fixed;
     top: 0;
-    right: 0;
-    width: 75%;
-    max-width: 320px;
+    right: -280px;          /* hidden off screen */
+    width: 280px;
     height: 100vh;
-    background: rgba(5, 0, 24, 0.95);
+    background: rgba(5, 0, 24, 0.96);
     backdrop-filter: blur(12px);
-    padding: 2rem;
-    transform: translateX(100%);
-    transition: 0.35s ease-in-out;
-    z-index: 9998;
+    padding: 1.8rem;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     gap: 2rem;
+    transition: right 0.35s ease-out;
+    z-index: 9998;
+    box-shadow: -6px 0 26px rgba(0, 0, 0, 0.7);
   }
 
   .navbar.active {
-    transform: translateX(0);
+    right: 0;
   }
+
   .navbar-top {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    width: 100%;
+    justify-content: space-between;
   }
-  /* Close button */
+
+  .navbar-top .logo {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.4rem;
+  }
+
   .nav-close-btn {
     display: inline-flex;
     background: none;
     border: none;
-    font-size: 2rem;
-    color: #fff;
+    font-size: 2.2rem;
+    color: #ffffff;
     cursor: pointer;
-    margin-left: auto;
-    z-index: 9999;
   }
 
-  /* NAV LINKS */
   .navbar-list {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
-    margin-top: 1rem;
+    gap: 1.6rem;
   }
 
   .navbar-link {
-    color: #fff;
+    color: #ffffff;
     font-size: 1.4rem;
     font-weight: 600;
   }
 
-  /* DARK OVERLAY BEHIND NAV */
+  .header-cta {
+    display: none;  /* hide "Contact Us" button in mobile header */
+  }
+
+  /* dark overlay behind menu */
   .overlay {
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.65);
     opacity: 0;
     pointer-events: none;
-    transition: 0.35s ease;
+    transition: opacity 0.3s ease;
     z-index: 9990;
   }
 
@@ -441,6 +448,7 @@ img {
     opacity: 1;
     pointer-events: all;
   }
+
 
   /* Prevent page scrolling while menu open */
   body.nav-open {
@@ -868,6 +876,7 @@ img {
 /* CENTER IMAGE */
 
 .features-banner {
+  cursor: pointer;
   display: flex;
   justify-content: center;
   position: relative;
