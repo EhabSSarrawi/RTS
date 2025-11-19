@@ -169,3 +169,42 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  const slides = document.querySelectorAll(".testimonial-slider .slide");
+  const dots   = document.querySelectorAll(".testimonial-slider .dot");
+  const prev   = document.getElementById("prevBtn");
+  const next   = document.getElementById("nextBtn");
+
+  if (!slides.length || !prev || !next) return;
+
+  let index = 0;
+
+  function showSlide(i) {
+    // keep index within bounds
+    index = (i + slides.length) % slides.length;
+
+    slides.forEach(s => s.classList.remove("active"));
+    dots.forEach(d => d.classList.remove("active"));
+
+    slides[index].classList.add("active");
+    if (dots[index]) dots[index].classList.add("active");
+  }
+
+  // arrows
+  next.addEventListener("click", () => {
+    showSlide(index + 1);
+  });
+
+  prev.addEventListener("click", () => {
+    showSlide(index - 1);
+  });
+
+  // dots
+  dots.forEach((dot, i) => {
+    dot.addEventListener("click", () => showSlide(i));
+  });
+
+  // optional: auto-play every 5s
+  setInterval(() => showSlide(index + 1), 5000);
+});
