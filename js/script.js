@@ -76,30 +76,22 @@ document.addEventListener("DOMContentLoaded", () => {
 /*
 Clients Slider
 */ 
-const slides = document.querySelectorAll(".slide");
-const dots = document.querySelectorAll(".dot");
-let index = 0;
+document.addEventListener("DOMContentLoaded", () => {
+  const track  = document.querySelector(".slide-track");
+  const slider = document.querySelector(".slider");
 
-function showSlide(i) {
-  slides.forEach(slide => slide.classList.remove("active"));
-  dots.forEach(dot => dot.classList.remove("active"));
+  if (!track || !slider) return;
 
-  slides[i].classList.add("active");
-  dots[i].classList.add("active");
+  const logos = Array.from(track.children);
+  logos.forEach(logo => {
+    const clone = logo.cloneNode(true);
+    track.appendChild(clone);
+  });
 
-  index = i;
-}
+  track.style.animationDuration = "28s";
 
-document.getElementById("nextBtn").onclick = function () {
-  index = (index + 1) % slides.length;
-  showSlide(index);
-};
-
-document.getElementById("prevBtn").onclick = function () {
-  index = (index - 1 + slides.length) % slides.length;
-  showSlide(index);
-};
-
-dots.forEach((dot, i) => {
-  dot.onclick = () => showSlide(i);
+  slider.addEventListener("wheel", (e) => {
+    e.preventDefault();
+    slider.scrollLeft += e.deltaY; 
+  });
 });
