@@ -1,26 +1,47 @@
 'use strict';
 
-
 const navOpenBtn  = document.querySelector("[data-nav-open-btn]");
 const navCloseBtn = document.querySelector("[data-nav-close-btn]");
 const navbar      = document.querySelector("[data-navbar]");
 const overlay     = document.querySelector("[data-overlay]");
 const navLinks    = document.querySelectorAll("[data-navbar-link]");
 
+function isMobile() {
+  return window.innerWidth <= 768; 
+}
+
 function openMenu() {
   navbar.classList.add("active");
   overlay.classList.add("active");
-  document.body.classList.add("nav-open"); 
-  navOpenBtn.style.display = "none";   // HIDE hamburger
-  navCloseBtn.style.display = "inline-flex"; // SHOW X
+  document.body.classList.add("nav-open");
+
+  if (isMobile()) {
+    navOpenBtn.style.display = "none";          
+    navCloseBtn.style.display = "inline-flex";  
+  }
 }
 
 function closeMenu() {
   navbar.classList.remove("active");
   overlay.classList.remove("active");
   document.body.classList.remove("nav-open");
-  navOpenBtn.style.display = "inline-flex"; // SHOW burger again
-  navCloseBtn.style.display = "none"; // HIDE X
+
+  if (isMobile()) {
+    navOpenBtn.style.display = "inline-flex";   
+    navCloseBtn.style.display = "none";         
+  }
+}
+
+function handleResize() {
+  if (!isMobile()) {
+    navOpenBtn.style.display  = "";
+    navCloseBtn.style.display = "";
+    navbar.classList.remove("active");
+    overlay.classList.remove("active");
+    document.body.classList.remove("nav-open");
+  } else {
+    navCloseBtn.style.display = "none";
+  }
 }
 
 navOpenBtn.addEventListener("click", openMenu);
@@ -28,10 +49,37 @@ navCloseBtn.addEventListener("click", closeMenu);
 overlay.addEventListener("click", closeMenu);
 
 navLinks.forEach(link => {
-  link.addEventListener("click", closeMenu);
+  link.addEventListener("click", () => {
+    if (navbar.classList.contains("active")) {
+      closeMenu();
+    }
+  });
 });
 
+handleResize();
+window.addEventListener("resize", handleResize);
+/*
+Go Up Button
+*/ 
 
+const goUpBtn = document.getElementById("goUpBtn");
+
+// Show / hide button on scroll
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 300) {
+    goUpBtn.classList.add("show");
+  } else {
+    goUpBtn.classList.remove("show");
+  }
+});
+
+// Smooth scroll to top
+goUpBtn.addEventListener("click", () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+});
 
 /*
 Counter Animation
@@ -83,15 +131,41 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!track || !slider) return;
 
   const logos = Array.from(track.children);
-  logos.forEach(logo => {
-    const clone = logo.cloneNode(true);
-    track.appendChild(clone);
+  logos.forEach(logo => track.appendChild(logo.cloneNode(true)));
+
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+
+  slider.addEventListener("mousedown", (e) => {
+    isDown = true;
+    slider.classList.add("dragging");
+    startX = e.pageX - slider.offsetLeft;
+    scrollLeft = slider.scrollLeft;
   });
 
-  track.style.animationDuration = "28s";
+  slider.addEventListener("mouseleave", () => {
+    isDown = false;
+    slider.classList.remove("dragging");
+  });
+
+  slider.addEventListener("mouseup", () => {
+    isDown = false;
+    slider.classList.remove("dragging");
+  });
+
+  slider.addEventListener("mousemove", (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+
+    const x = e.pageX - slider.offsetLeft;
+    const walk = (x - startX) * 1.5;  // drag speed factor
+    slider.scrollLeft = scrollLeft - walk;
+  });
 
   slider.addEventListener("wheel", (e) => {
     e.preventDefault();
-    slider.scrollLeft += e.deltaY; 
+    slider.scrollLeft += e.deltaY;
   });
+
 });
