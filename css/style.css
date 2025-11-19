@@ -562,9 +562,6 @@ img {
   display: flex;
   align-items: baseline;
   gap: 0.1rem;
-  background: linear-gradient(120deg, #c024ff, #5e2bff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
 }
 
 .stats-title .plus {
