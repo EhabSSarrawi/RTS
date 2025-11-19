@@ -159,8 +159,9 @@ img {
 
 .logo-wrapper img {
   height: 200px;
-  width: auto;
+  width: 300px;
   margin-left: -50px;
+  margin-bottom: 40px;
 }
 
 /* Navbar desktop */
