@@ -170,6 +170,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+
+/*
+Testimonial Slider
+*/
 document.addEventListener("DOMContentLoaded", () => {
   const slides = document.querySelectorAll(".testimonial-slider .slide");
   const dots   = document.querySelectorAll(".testimonial-slider .dot");
@@ -206,5 +210,5 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // optional: auto-play every 5s
-  setInterval(() => showSlide(index + 1), 5000);
+  setInterval(() => showSlide(index + 1), 8000);
 });
