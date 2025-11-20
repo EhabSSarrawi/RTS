@@ -183,32 +183,75 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!slides.length || !prev || !next) return;
 
   let index = 0;
+  let isAnimating = false;
+  const DURATION = 600; // must match CSS animation time
 
-  function showSlide(i) {
-    // keep index within bounds
-    index = (i + slides.length) % slides.length;
+  function changeSlide(newIndex, direction) {
+    if (isAnimating || newIndex === index) return;
+    isAnimating = true;
 
-    slides.forEach(s => s.classList.remove("active"));
+    const current   = slides[index];
+    const nextSlide = slides[(newIndex + slides.length) % slides.length];
+
+    // clear previous animation classes
+    slides.forEach(s =>
+      s.classList.remove(
+        "active",
+        "exit-left",
+        "exit-right",
+        "enter-left",
+        "enter-right"
+      )
+    );
+
+    // old slide: exit according to direction
+    if (direction === "right") {
+      current.classList.add("exit-left");   // moving card to the LEFT
+    } else {
+      current.classList.add("exit-right");  // moving card to the RIGHT
+    }
+
+    // new slide: enter from opposite side + become active
+    if (direction === "left") {
+      nextSlide.classList.add("active", "enter-right");
+    } else {
+      nextSlide.classList.add("active", "enter-left");
+    }
+
+    // update dots
     dots.forEach(d => d.classList.remove("active"));
+    dots[(newIndex + slides.length) % slides.length].classList.add("active");
 
-    slides[index].classList.add("active");
-    if (dots[index]) dots[index].classList.add("active");
+    // finish animation
+    setTimeout(() => {
+      current.classList.remove("exit-left", "exit-right");
+      nextSlide.classList.remove("enter-left", "enter-right");
+      index = (newIndex + slides.length) % slides.length;
+      isAnimating = false;
+    }, DURATION);
   }
 
-  // arrows
+  // right arrow → forward → fade/slide toward RIGHT
   next.addEventListener("click", () => {
-    showSlide(index + 1);
+    changeSlide(index + 1, "right");
   });
 
+  // left arrow → backward → fade/slide toward LEFT
   prev.addEventListener("click", () => {
-    showSlide(index - 1);
+    changeSlide(index - 1, "left");
   });
 
-  // dots
+  // dots click
   dots.forEach((dot, i) => {
-    dot.addEventListener("click", () => showSlide(i));
+    dot.addEventListener("click", () => {
+      if (i === index) return;
+      const direction = i > index ? "right" : "left";
+      changeSlide(i, direction);
+    });
   });
 
-  // optional: auto-play every 5s
-  setInterval(() => showSlide(index + 1), 8000);
+  // optional autoplay
+  setInterval(() => {
+    changeSlide(index + 1, "right");
+  }, 8000);
 });
